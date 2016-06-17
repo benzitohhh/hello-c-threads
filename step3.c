@@ -24,7 +24,7 @@ void* squarer(struct ThreadData* td) {
   for (i=start; i<stop; i++) {
     array[i]=i*i;
   }
-
+  printf("finished thread: %p\n", id);
   return NULL;
 }
 
@@ -56,7 +56,13 @@ int main(void) {
 
   /* Wait for Threads to Finish */
   for (i=0; i<NUMTHREADS; i++) {
+    printf("Joining thread %d\n", i);
     pthread_join(thread[i], NULL); // suspends execution of this thread, until target thread has terminated
+
+    // So in this case here...
+    // join(0) call will block until thread[0] has terminated.
+    // then join join(1) call will block until thread[1] has terminated.
+    // etc....
   }
 
   /* Display Result */
